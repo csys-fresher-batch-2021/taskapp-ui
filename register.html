@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register User</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+    <h3>Register User</h3>
+
+    <form onsubmit="register()">
+        <label>Name</label>
+        <input type="text" name="name" id="name" placeholder="Enter name" required autofocus><br/>
+
+        <label>Email</label>
+        <input type="email" name="email" id="email" required placeholder="Enter email" > <br/>
+        
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter password" required> <br/>
+
+        <button>Submit</button>
+        <button type="reset">Reset</button>
+    </form>
+
+    <script>
+        function register(){
+            event.preventDefault();
+            let name = document.querySelector("#name").value;
+            let email = document.querySelector("#email").value;
+            let password = document.querySelector("#password").value;
+            let userObj = { name: name, email: email, password: password};
+            console.log(userObj);
+
+            let url = "http://localhost:8080/api/v1/users";
+            axios.post(url, userObj).then(res=>{
+                console.log(res.data);
+                alert("Successfully Registered");
+            }).catch(err=>{
+                let data = err.response.data;
+                console.log(data);
+                let errorMessage = data.errorMessage;
+                alert( errorMessage);
+            })
+
+        }
+    </script>
+    
+</body>
+</html>
